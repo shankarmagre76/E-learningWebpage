@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     getMyCourses()
       .then((res) => setEnrollments(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -36,29 +36,62 @@ export default function Dashboard() {
           You are not enrolled in any course yet.
         </p>
       ) : (
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {enrollments.map((enrollment) => (
-            <div
-              key={enrollment._id}
-              className="flex items-center justify-between rounded-lg bg-white px-4 py-3 shadow"
-            >
-              <div>
-                <p className="font-medium text-gray-800">
-                  {enrollment.course?.title}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {enrollment.course?.instructor?.name || "Instructor"}
-                </p>
-              </div>
-              <Link
-                to={`/course/${enrollment.course?._id}`}
-                className="rounded bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {enrollments.map((enrollment) => {
+            const course = enrollment.course;
+
+            if (!course) return null;
+
+            return (
+              <div
+                key={enrollment._id}
+                className="flex flex-col overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition"
               >
-                Go to course
-              </Link>
-            </div>
-          ))}
+                {/* Thumbnail */}
+                {course.thumbnail && (
+                  <img
+                    src={course.thumbnail}
+                    alt={course.title}
+                    className="h-40 w-full object-cover"
+                    onError={(e) => (e.target.src = "/default-course.png")}
+                  />
+                )}
+
+                {/* Content */}
+                <div className="flex flex-1 flex-col px-4 py-3">
+                  <h3 className="line-clamp-2 text-lg font-bold text-gray-800">
+                    {course.title}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-gray-500">
+                    {course.instructor?.name || "Instructor"}
+                  </p>
+
+                  <p className="mt-2 text-xs uppercase text-blue-600">
+                    {course.category || "General"} ·{" "}
+                    {course.level ? course.level.toUpperCase() : "ALL LEVELS"}
+                  </p>
+
+                  <Link
+                    to={`/courses/${course._id}/lessons`}
+                    className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    Go to Course
+                  </Link>
+
+
+                  {/* <Link
+                    to={`/courses/${course._id}`}
+                    className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    Go to Course
+                  </Link> */}
+                </div>
+              </div>
+            );
+          })}
         </div>
+
       )}
     </DashboardLayout>
   );

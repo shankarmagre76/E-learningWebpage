@@ -27,12 +27,13 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
 
-    lessons: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Lesson",
-      },
-    ],
+    lessons: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Lesson",
+      default: [],
+    },
+
+
 
     enrolledStudents: [
       {

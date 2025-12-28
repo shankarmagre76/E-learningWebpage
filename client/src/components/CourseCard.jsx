@@ -22,7 +22,7 @@ export default function CourseCard({ course }) {
           {course.level ? course.level.toUpperCase() : "ALL LEVELS"}
         </p>
         <Link
-          to={`/course/${course._id}`}
+          to={`/courses/${course._id}`}
           className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-700"
         >
           View Details

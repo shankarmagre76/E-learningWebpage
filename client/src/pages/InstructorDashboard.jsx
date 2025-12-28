@@ -13,7 +13,7 @@ export default function InstructorDashboard() {
   useEffect(() => {
     getInstructorCourses()
       .then((res) => setCourses(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -46,9 +46,22 @@ export default function InstructorDashboard() {
             {courses.map((course) => (
               <div
                 key={course._id}
-                className="flex items-center justify-between rounded bg-white px-4 py-3 shadow"
+                className="flex items-center justify-between gap-4 rounded bg-white px-4 py-3 shadow hover:shadow-md transition"
               >
-                <div>
+                {/* Thumbnail */}
+                <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                  <img
+                    src={course.thumbnail}
+                    alt={course.title}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.target.src = "/default-course.png";
+                    }}
+                  />
+                </div>
+
+                {/* Course Info */}
+                <div className="flex-1">
                   <p className="font-semibold text-gray-800">
                     {course.title}
                   </p>
@@ -56,6 +69,8 @@ export default function InstructorDashboard() {
                     {course.category} · {course.level?.toUpperCase()}
                   </p>
                 </div>
+
+                {/* Actions */}
                 <div className="flex gap-3">
                   <Link
                     to={`/instructor/courses/${course._id}/lessons`}
@@ -63,8 +78,15 @@ export default function InstructorDashboard() {
                   >
                     Manage Lessons
                   </Link>
+                  <Link
+                    to={`/courses/${course._id}/lessons`}
+                    className="rounded bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                  >
+                    View Lessons
+                  </Link>
                 </div>
               </div>
+
             ))}
           </div>
         )}

@@ -9,9 +9,11 @@ export default function AddLesson() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [order, setOrder] = useState("");
+  const [duration, setDuration] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +24,10 @@ export default function AddLesson() {
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("content", content);
+    formData.append("order", order);
+    formData.append("duration", duration);
     formData.append("video", videoFile);
+
 
     setLoading(true);
     try {
@@ -55,13 +59,23 @@ export default function AddLesson() {
             className="w-full border p-3 rounded focus:border-blue-500 outline-none"
           />
 
-          <textarea
-            placeholder="Lesson content / notes"
-            rows={4}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+          <input
+            type="number"
+            placeholder="Lesson Order (1, 2, 3...)"
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+            required
             className="w-full border p-3 rounded focus:border-blue-500 outline-none"
           />
+
+          <input
+            type="text"
+            placeholder="Duration (e.g. 10 min)"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className="w-full border p-3 rounded focus:border-blue-500 outline-none"
+          />
+
 
           <input
             type="file"
