@@ -53,6 +53,10 @@ export default function CourseDetails() {
                         {course.category} · {course.level?.toUpperCase()}
                     </p>
                 </div>
+                <h3 className="text-gray-700 font-semibold">
+                    Instructor: {course.instructor?.name || "Unknown"}
+                </h3>
+
 
                 {/* Thumbnail */}
                 <img

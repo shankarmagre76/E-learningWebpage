@@ -1,3 +1,5 @@
+// client\src\pages\CourseDetail.jsx  this page will show you all lessons
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
