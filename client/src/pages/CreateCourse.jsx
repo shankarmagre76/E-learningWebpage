@@ -2,7 +2,6 @@
 import { useState } from "react";
 import useAuth from "../context/AuthContext";
 import axios from "axios";
-// import useAuth from "../context/AuthContext";
 
 export default function CreateCourse() {
   const { token } = useAuth();
@@ -22,7 +21,6 @@ export default function CreateCourse() {
   const onChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  // 🔥 Preview thumbnail
   const onThumbnailChange = (e) => {
     const file = e.target.files[0];
     setThumbnail(file);
@@ -35,16 +33,14 @@ export default function CreateCourse() {
 
     try {
       const fd = new FormData();
-
       fd.append("title", form.title);
       fd.append("subtitle", form.subtitle);
       fd.append("description", form.description);
       fd.append("category", form.category);
       fd.append("level", form.level);
-
       if (thumbnail) fd.append("thumbnail", thumbnail);
 
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/courses",
         fd,
         {
@@ -64,78 +60,127 @@ export default function CreateCourse() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Create Course</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
 
-      <form onSubmit={submitCourse}>
-        <label>Course Title</label>
-        <input
-          name="title"
-          type="text"
-          className="block w-full border p-2 mb-3"
-          onChange={onChange}
-          required
-        />
+      {/* Header */}
+      <h2 className="flex items-center gap-2 text-2xl font-bold mb-6">
+        <i className="fas fa-circle-plus text-blue-600"></i>
+        Create Course
+      </h2>
 
-        <label>Subtitle</label>
-        <input
-          name="subtitle"
-          type="text"
-          className="block w-full border p-2 mb-3"
-          onChange={onChange}
-        />
+      <form onSubmit={submitCourse} className="space-y-4">
 
-        <label>Description</label>
-        <textarea
-          name="description"
-          className="block w-full border p-2 mb-3"
-          onChange={onChange}
-          required
-        ></textarea>
-
-        <label>Category</label>
-        <input
-          name="category"
-          type="text"
-          className="block w-full border p-2 mb-3"
-          onChange={onChange}
-          required
-        />
-
-        <label>Level</label>
-        <select
-          name="level"
-          className="block w-full border p-2 mb-3"
-          onChange={onChange}
-        >
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-
-        <label>Thumbnail</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={onThumbnailChange}
-          className="block mb-2"
-        />
-
-        {preview && (
-          <img
-            src={preview}
-            alt="Thumbnail Preview"
-            className="w-48 h-32 object-cover mb-4 rounded shadow"
+        {/* Title */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-heading text-gray-500"></i>
+            Course Title
+          </label>
+          <input
+            name="title"
+            type="text"
+            className="block w-full border p-2 rounded"
+            onChange={onChange}
+            required
           />
+        </div>
+
+        {/* Subtitle */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-quote-left text-gray-500"></i>
+            Subtitle
+          </label>
+          <input
+            name="subtitle"
+            type="text"
+            className="block w-full border p-2 rounded"
+            onChange={onChange}
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-align-left text-gray-500"></i>
+            Description
+          </label>
+          <textarea
+            name="description"
+            className="block w-full border p-2 rounded"
+            onChange={onChange}
+            required
+          ></textarea>
+        </div>
+
+        {/* Category */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-tags text-gray-500"></i>
+            Category
+          </label>
+          <input
+            name="category"
+            type="text"
+            className="block w-full border p-2 rounded"
+            onChange={onChange}
+            required
+          />
+        </div>
+
+        {/* Level */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-signal text-gray-500"></i>
+            Level
+          </label>
+          <select
+            name="level"
+            className="block w-full border p-2 rounded"
+            onChange={onChange}
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        {/* Thumbnail */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <i className="fas fa-image text-gray-500"></i>
+            Thumbnail
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onThumbnailChange}
+            className="block"
+          />
+        </div>
+
+        {/* Preview */}
+        {preview && (
+          <div className="flex items-center gap-3 mt-2">
+            <i className="fas fa-eye text-blue-500"></i>
+            <img
+              src={preview}
+              alt="Thumbnail Preview"
+              className="w-48 h-32 object-cover rounded shadow"
+            />
+          </div>
         )}
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded"
+          className="flex w-full items-center justify-center gap-2 rounded bg-blue-600 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
+          <i className={`fas ${loading ? "fa-spinner fa-spin" : "fa-upload"}`}></i>
           {loading ? "Creating..." : "Create Course"}
         </button>
+
       </form>
     </div>
   );

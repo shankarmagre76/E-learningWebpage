@@ -14,7 +14,6 @@ export default function AddLesson() {
   const [videoFile, setVideoFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!videoFile) {
@@ -27,7 +26,6 @@ export default function AddLesson() {
     formData.append("order", order);
     formData.append("duration", duration);
     formData.append("video", videoFile);
-
 
     setLoading(true);
     try {
@@ -44,52 +42,80 @@ export default function AddLesson() {
   return (
     <MainLayout>
       <div className="mx-auto max-w-3xl rounded-xl bg-white p-6 shadow">
-        <h1 className="text-2xl font-bold text-gray-900">Add Lesson</h1>
-        <p className="text-sm text-gray-600 mt-1">
+
+        {/* Header */}
+        <h1 className="flex items-center gap-2 text-2xl font-bold text-gray-900">
+          <i className="fas fa-circle-plus text-green-600"></i>
+          Add Lesson
+        </h1>
+        <p className="mt-1 flex items-center gap-2 text-sm text-gray-600">
+          <i className="fas fa-video"></i>
           Upload lesson content and video for this course.
         </p>
 
+        {/* Form */}
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <input
-            type="text"
-            placeholder="Lesson Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full border p-3 rounded focus:border-blue-500 outline-none"
-          />
 
-          <input
-            type="number"
-            placeholder="Lesson Order (1, 2, 3...)"
-            value={order}
-            onChange={(e) => setOrder(e.target.value)}
-            required
-            className="w-full border p-3 rounded focus:border-blue-500 outline-none"
-          />
+          {/* Lesson Title */}
+          <div className="relative">
+            <i className="fas fa-heading absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input
+              type="text"
+              placeholder="Lesson Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full border p-3 pl-10 rounded focus:border-blue-500 outline-none"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Duration (e.g. 10 min)"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            className="w-full border p-3 rounded focus:border-blue-500 outline-none"
-          />
+          {/* Lesson Order */}
+          <div className="relative">
+            <i className="fas fa-list-ol absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input
+              type="number"
+              placeholder="Lesson Order (1, 2, 3...)"
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+              required
+              className="w-full border p-3 pl-10 rounded focus:border-blue-500 outline-none"
+            />
+          </div>
 
+          {/* Duration */}
+          <div className="relative">
+            <i className="fas fa-clock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input
+              type="text"
+              placeholder="Duration (e.g. 10 min)"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className="w-full border p-3 pl-10 rounded focus:border-blue-500 outline-none"
+            />
+          </div>
 
-          <input
-            type="file"
-            accept="video/*"
-            onChange={(e) => setVideoFile(e.target.files[0])}
-            required
-            className="w-full border p-2 rounded"
-          />
+          {/* Video Upload */}
+          <div className="relative">
+            <label className="mb-1 block text-sm font-medium text-gray-600">
+              <i className="fas fa-file-video mr-2 text-blue-500"></i>
+              Lesson Video
+            </label>
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => setVideoFile(e.target.files[0])}
+              required
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 text-white py-2 rounded font-medium hover:bg-green-700 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded bg-green-600 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
           >
+            <i className={`fas ${loading ? "fa-spinner fa-spin" : "fa-upload"}`}></i>
             {loading ? "Uploading..." : "Create Lesson"}
           </button>
         </form>

@@ -10,7 +10,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth();  // ✔ from context
+  const { login } = useAuth();
 
   const onChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,8 +21,6 @@ export default function Login() {
 
     try {
       const res = await loginUser(form);
-
-      // ✔ Save user + token to context
       login(res.user, res.token);
 
       if (res.user.role === "instructor") {
@@ -44,12 +42,20 @@ export default function Login() {
           onSubmit={onSubmit}
           className="mt-10 w-full max-w-md rounded-xl bg-white p-6 shadow"
         >
-          <h2 className="text-2xl font-bold text-gray-800">Login</h2>
-          <p className="mt-1 text-sm text-gray-500">
+
+          {/* Header */}
+          <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-800">
+            <i className="fas fa-right-to-bracket text-blue-600"></i>
+            Login
+          </h2>
+          <p className="mt-1 flex items-center gap-2 text-sm text-gray-500">
+            <i className="fas fa-graduation-cap"></i>
             Welcome back! Continue your learning journey.
           </p>
 
-          <label className="mt-4 text-sm font-medium text-gray-700">
+          {/* Email */}
+          <label className="mt-4 flex items-center gap-2 text-sm font-medium text-gray-700">
+            <i className="fas fa-envelope text-gray-500"></i>
             Email
           </label>
           <input
@@ -57,10 +63,12 @@ export default function Login() {
             type="email"
             required
             onChange={onChange}
-            className="mt-1 w-full border rounded px-3 py-2 text-sm focus:border-blue-500"
+            className="mt-1 w-full rounded border px-3 py-2 text-sm focus:border-blue-500 outline-none"
           />
 
-          <label className="mt-4 text-sm font-medium text-gray-700">
+          {/* Password */}
+          <label className="mt-4 flex items-center gap-2 text-sm font-medium text-gray-700">
+            <i className="fas fa-lock text-gray-500"></i>
             Password
           </label>
           <input
@@ -68,23 +76,28 @@ export default function Login() {
             type="password"
             required
             onChange={onChange}
-            className="mt-1 w-full border rounded px-3 py-2 text-sm focus:border-blue-500"
+            className="mt-1 w-full rounded border px-3 py-2 text-sm focus:border-blue-500 outline-none"
           />
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full rounded bg-blue-600 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded bg-blue-600 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
           >
+            <i className={`fas ${loading ? "fa-spinner fa-spin" : "fa-sign-in-alt"}`}></i>
             {loading ? "Logging in..." : "Login"}
           </button>
 
+          {/* Register */}
           <p className="mt-4 text-center text-sm text-gray-600">
             Don’t have an account?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="inline-flex items-center gap-1 text-blue-600 hover:underline">
+              <i className="fas fa-user-plus"></i>
               Register
             </Link>
           </p>
+
         </form>
       </div>
     </MainLayout>
